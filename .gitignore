@@ -8,3 +8,14 @@ data/processed/*.parquet
 *.db  
 *.sqlite  
 *.duckdb-wal
+# Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# pytest
+.pytest_cache/
+# coverage (if using pytest-cov)
+.coverage
+htmlcov/
