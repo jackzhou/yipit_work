@@ -4,7 +4,7 @@
 import logging
 
 import src.common.logging_config  # noqa: F401 — configures logging on import
-from src.etl.load import load_news_data
+from src.etl.transform import load_news_data
 
 logger = logging.getLogger(__name__)
 
