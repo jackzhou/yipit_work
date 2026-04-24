@@ -1,7 +1,13 @@
+# Choice of model
+
+The all-MiniLM-L6-v2 model is used because it provides fast, lightweight sentence embeddings with strong semantic similarity performance, making it well-suited for comparing article titles and summaries. It runs efficiently in a local environment without external dependencies, supporting scalable batch processing and reliable execution
+I chose all-MiniLM-L6-v2 because it provides fast, lightweight sentence embeddings with good semantic similarity performance, 
+
 # Design and implementation notes
 
 Document architecture, data flow, and modeling choices for this project here.
 add a line
+
 ## Data Quality Handling – Company Metadata
 
 The provided `company_metadata.json` contains inconsistencies between the `is_public` and `stock_ticker` fields. For example, some companies marked as private (`is_public: false`) have non-null stock tickers (e.g., OpenAI with ticker `"OPEN"`).
@@ -38,5 +44,7 @@ Python handles vector similarity: after retrieving a filtered set of articles fr
 
 **Summary:**  
 Metadata narrowing (using SQL in DuckDB) and vector search (using Python’s machine learning stack) are composed:  
-1. SQL extracts a relevant article subset.  
+
+1. SQL extracts a relevant article subset.
 2. Embedding-based similarity ranks this subset by semantic match to the query.
+
