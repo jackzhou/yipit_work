@@ -10,7 +10,6 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_SENTENCE_MODEL = "all-MiniLM-L6-v2"
 
 _MODEL: SentenceTransformer | None = None

@@ -12,7 +12,7 @@ import pandas as pd
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DUCKDB_PATH = _REPO_ROOT / "data" /"tech_news.duckdb"
 TABLE_NAME = "articles"
-CLEAND_DATA_PATH = _REPO_ROOT / "data" / "processed" / "processed_news.csv"
+CLEAND_DATA_PATH = _REPO_ROOT / "data" / "processed" / "processed_news.parquet"
 
 
 @contextmanager
@@ -44,5 +44,5 @@ def sql(query: str, *, database: str | Path | None = None) -> pd.DataFrame:
         return conn.execute(query).fetchdf()
 
 def load_cleaned_data():
-    df =  pd.read_csv(CLEAND_DATA_PATH)
+    df =  pd.read_parquet(CLEAND_DATA_PATH)
     write(df)

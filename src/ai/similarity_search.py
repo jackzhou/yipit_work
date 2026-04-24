@@ -21,3 +21,5 @@ def export_with_top_similar_articles(sql_query, output_path):
     df = add_top_similar_articles(df) 
     logger.info(f"exporting {df.shape[0]} articles to {output_path}")
     df.to_csv(output_path)
+    parquet_path = output_path.with_suffix('.parquet') if hasattr(output_path, 'with_suffix') else str(output_path).rsplit('.', 1)[0] + '.parquet'
+    df.to_parquet(parquet_path)
