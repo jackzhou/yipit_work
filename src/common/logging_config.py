@@ -1,11 +1,10 @@
 # src/common/logging_config.py
-"""Configure process-wide logging once; modules use ``logging.getLogger(__name__)``."""
 
 from __future__ import annotations
 
 import logging
 
-_DEFAULT_FORMAT = "%(levelname)s %(message)s"
+_DEFAULT_FORMAT = "%(levelname)s [%(filename)s:%(lineno)d] %(message)s"
 _configured = False
 
 

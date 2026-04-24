@@ -5,12 +5,12 @@ from __future__ import annotations
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-_REPO_ROOT = Path(__file__).resolve().parents[2]
-PROCESSED_NEWS_PARQUET = _REPO_ROOT / "data" / "processed" / "processed_news.parquet"
 
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_SENTENCE_MODEL = "all-MiniLM-L6-v2"
 
 _MODEL: SentenceTransformer | None = None
@@ -48,5 +48,25 @@ def find_similar_articles(query_text, filtered_df, top_k=5):
         for i in top_idx
     ]
 
+
+
+def add_top_similar_articles(df: pd.DataFrame, top_k: int = 3) -> pd.DataFrame:
+    df = df.copy()
+    # ensure embeddings are numpy arrays
+    emb_matrix = np.vstack(df["embedding"].apply(np.array).values)
+    results = []
+    for i in range(len(df)):
+        query = emb_matrix[i:i+1]
+        scores = cosine_similarity(query, emb_matrix)[0]
+        # sort descending
+        sorted_idx = scores.argsort()[::-1]
+        # remove self and take top_k
+        top_idx = [j for j in sorted_idx if j != i][:top_k]
+        article_ids = df.iloc[top_idx]["article_id"].tolist()
+        results.append(article_ids)
+
+    df["top_similar_articles"] = results
+
+    return df
 
 

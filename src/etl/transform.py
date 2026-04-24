@@ -62,7 +62,7 @@ def _persist_to_file(
     df_parquet = pd.read_parquet(output_parquet_path)
     logger.info("df_parquet.dtypes:\n %s", df_parquet.dtypes)
     logger.info("Wrote %s (%s rows)", output_csv_path, len(df))
-    logger.info("Wrote %s (%s rows)", output_parquet_path, len(df))
+    # logger.info("Wrote %s (%s rows)", output_parquet_path, len(df))
     return str(output_csv_path), str(output_parquet_path)
 
 

@@ -12,15 +12,11 @@ import pandas as pd
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_DUCKDB_PATH = _REPO_ROOT / "data" /"tech_news.duckdb"
 TABLE_NAME = "articles"
+CLEAND_DATA_PATH = _REPO_ROOT / "data" / "processed" / "processed_news.csv"
 
 
 @contextmanager
 def duckdb_session(database: str | Path | None = None) -> Iterator[duckdb.DuckDBPyConnection]:
-    """
-    Open a DuckDB connection and **close** it when the ``with`` block ends.
-
-    ``database`` defaults to ``articles_embeddings.duckdb`` at the repo root.
-    """
     path = database if database is not None else DEFAULT_DUCKDB_PATH
     conn = duckdb.connect(str(path))
     try:
@@ -46,3 +42,7 @@ def sql(query: str, *, database: str | Path | None = None) -> pd.DataFrame:
     """Run a SQL query and return the result as a DataFrame."""
     with duckdb_session(database) as conn:
         return conn.execute(query).fetchdf()
+
+def load_cleaned_data():
+    df =  pd.read_csv(CLEAND_DATA_PATH)
+    write(df)

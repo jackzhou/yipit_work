@@ -3,6 +3,7 @@ venv/
 .venv/
 .DS_Store
 data/processed/
+output/
 *duckdb*
 *.duckdb  
 *.db  
