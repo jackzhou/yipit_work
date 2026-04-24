@@ -2,40 +2,42 @@
 
 This project (yipit_work) implements an end-to-end ETL and AI enrichment pipeline.
 
-## Exported CVS file location
+## Exported CSV file location
 
-**$project_root/output/ai_articles_enriched.csv**
+**`output/ai_articles_enriched.csv`** (relative to the repository root)
 
-## Prerequisite
+## Prerequisites
 
-- [python 3.11]()
+- Python 3.11
 
 ## Install
 
-- create a virtual environment with  [python 3.11.]()  see example in **create_venv.sh**
-- run 
+- Create a virtual environment with Python 3.11; see **create_venv.sh**
+- Run:
+
   ```shellscript
   pip install -r requirements.txt
   ```
-   see example in install_deps,s
 
-## Run Tests:
+  See **install_deps.sh**
 
-- pytest
+## Run tests
+
+- `pytest`
 
 ## Run workflow
 
-- start the pipleline: ./run_all.sh
-- python entry point: [pipline.py](http://pipline.py)
-- to see usage run: PYTHONPATH=$PYTHONPATH:$(pwd) python src/[pipeline.py](http://pipeline.py) -h
+- Start the pipeline: `./run_all.sh`
+- Python entry point: [src/pipeline.py](src/pipeline.py)
+- Usage help: `PYTHONPATH=$PYTHONPATH:$(pwd) python src/pipeline.py -h`
 
-## Code Usage and Testing
+## Code usage and testing
 
 Each module (`<file>.py`) is accompanied by a corresponding test file (`test_<file>.py`), which serves both to validate functionality and to document the intended usage and behavior.
 
-## Query Functions:
+## Query functions
 
-- Function to execute SQL queries on DuckDB
+- Functions to execute SQL queries on DuckDB:
 
 ```python
 def read(table_name: str = TABLE_NAME, *, database: str | Path | None = None) -> pd.DataFrame:
@@ -50,15 +52,16 @@ def sql(query: str, *, database: str | Path | None = None) -> pd.DataFrame:
         return conn.execute(query).fetchdf()
 ```
 
-- Function to perform vector similarity search
+- Function to perform vector similarity search:
 
 ```python
-def find_similar_articles(query_text, filtered_df, top_k=5)
+def find_similar_articles(query_text, filtered_df, top_k=5):
+    ...
 ```
 
-- Export function to Csv with embeddings
+- Export function to CSV with embeddings:
 
 ```python
 def export_with_top_similar_articles(sql_query, output_path):
+    ...
 ```
-
