@@ -1,7 +1,7 @@
 # Design and implementation notes
 
 Document architecture, data flow, and modeling choices for this project here.
-
+add a line
 ## Data Quality Handling – Company Metadata
 
 The provided `company_metadata.json` contains inconsistencies between the `is_public` and `stock_ticker` fields. For example, some companies marked as private (`is_public: false`) have non-null stock tickers (e.g., OpenAI with ticker `"OPEN"`).
