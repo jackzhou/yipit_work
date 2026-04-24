@@ -9,7 +9,7 @@ import pandas as pd
 
 import src.ai.data_store as db
 from src.ai.embeddings import generate_embeddings
-from src.ai.similarity_search import export_with_similar_articles
+from src.ai.similarity_search import export_with_top_similar_articles
 from src.etl.transform import run_flow
 
 logger = logging.getLogger(__name__)
@@ -24,6 +24,21 @@ def run_etl() -> None:
     run_flow(raw_csv_path, metadata_json_path)
     logger.info("ETL pipeline completed")
 
+
+
+def run_ai() -> None:
+    logger.info("loading cleaned data")
+    db.load_cleaned_data()
+    logger.info("cleaned data loaded")
+    df = db.read()
+    logger.info("data loaded: %s", df.shape)
+    df_with_embeddings = generate_embeddings(df)
+    logger.info("embeddings generated: %s", df.shape)
+
+    embedding_table = "articles_embeddings"
+    db.write(df_with_embeddings, table_name=embedding_table)
+    logger.info("embeddings written to table %s", embedding_table)
+    export_final_file()
 
 def export_final_file() -> None:
     category_list = "('AI_ML', 'AI', 'ML', 'Artificial Intelligence', 'Machine Learning')"
@@ -58,23 +73,8 @@ def export_final_file() -> None:
 
     """
 
-    logger.info("root path: %s", ROOT)
-    export_with_similar_articles(query, ROOT / "output" / "final_articles.csv")
+    export_with_top_similar_articles(query, ROOT / "output" / "final_articles.csv")
 
-
-def run_ai() -> None:
-    logger.info("loading cleaned data")
-    db.load_cleaned_data()
-    logger.info("cleaned data loaded")
-    df = db.read()
-    logger.info("data loaded: %s", df.shape)
-    df_with_embeddings = generate_embeddings(df)
-    logger.info("embeddings generated: %s", df.shape)
-
-    embedding_table = "articles_embeddings"
-    db.write(df_with_embeddings, table_name=embedding_table)
-    logger.info("embeddings written to table %s", embedding_table)
-    export_final_file()
 
 
 def main() -> None:
